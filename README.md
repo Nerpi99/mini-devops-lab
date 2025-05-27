@@ -1,6 +1,6 @@
 # 🧪 Mini DevOps Lab
 
-Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker y Docker Compose. Además, incluye protección de ramas y validaciones automáticas con GitHub Actions.
+Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker, Docker Compose y herramientas de CI/CD.
 
 ---
 
@@ -11,9 +11,11 @@ Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades
 - ✅ Dockerfile para empaquetar la app
 - ✅ `docker-compose` para levantar múltiples servicios
 - ✅ API REST con endpoints de prueba
+- ✅ Configuración ESLint para calidad de código
 - ✅ GitHub Action que bloquea cambios no autorizados en archivos sensibles (`CODEOWNERS`, `.env`, workflows)
-- ✅ Protección de rama principal (`main`) con revisión obligatoria por parte de @Nerpi99
-- ✅ Ideal como base para futuros ejercicios con Kubernetes, CI/CD, Terraform, etc.
+- ✅ GitHub Action de CI que corre ESLint automáticamente
+- ✅ Protección de la rama `main` con revisión obligatoria por @Nerpi99
+- ✅ Ideal como base para futuros ejercicios con Kubernetes, monitoreo y Terraform
 
 ---
 
@@ -25,12 +27,15 @@ mini-devops-lab/
 │   ├── index.js
 │   ├── Message.js
 │   ├── package.json
-│   └── Dockerfile
+│   ├── package-lock.json
+│   ├── Dockerfile
+│   └── eslint.config.mjs
 ├── docker-compose.yaml         # Orquestación de servicios
 ├── .github/
 │   ├── CODEOWNERS              # Control de revisores
 │   └── workflows/
-│       └── protect-sensitive-files.yml  # GitHub Action de protección
+│       ├── protect-sensitive-files.yml  # GitHub Action de protección
+│       └── ci-node.yml                   # GitHub Action para CI (ESLint)
 └── README.md
 ```
 
@@ -40,6 +45,8 @@ mini-devops-lab/
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
+- [Node.js](https://nodejs.org/) (opcional para desarrollo local)
+- [GitHub CLI](https://cli.github.com/) (opcional para manejar PRs desde terminal)
 
 ---
 
@@ -80,10 +87,10 @@ docker-compose up --build
 
 ## 🔒 Seguridad y flujo de trabajo
 
-- Todos los cambios a `main` requieren Pull Request.
-- Solo @Nerpi99 puede aprobar merges a `main`.
-- Cualquier intento de modificar archivos protegidos será bloqueado por el GitHub Action.
-- Se recomienda abrir PRs desde ramas personales (`bruno-dev`, etc.).
+- Todos los cambios a `main` requieren Pull Request
+- Solo @Nerpi99 puede aprobar y mergear
+- Cambios sensibles como `.env`, `CODEOWNERS`, y workflows están protegidos por GitHub Actions
+- CI corre ESLint automáticamente en cada push o PR
 
 ---
 
@@ -97,6 +104,7 @@ docker-compose up --build
 
 ## 📌 Próximos pasos
 
-- CI/CD completo con test y despliegue automatizado
-- Despliegue en Kubernetes (Minikube o Kind)
+- Despliegue en Kubernetes con Minikube o Kind
+- Monitoreo con Prometheus + Grafana
+- Pipeline CI/CD completo con test y deploy automático
 - Infraestructura como código con Terraform
