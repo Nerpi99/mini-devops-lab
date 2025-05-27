@@ -1,6 +1,6 @@
 # 🧪 Mini DevOps Lab
 
-Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker y Docker Compose.
+Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker y Docker Compose. Además, incluye protección de ramas y validaciones automáticas con GitHub Actions.
 
 ---
 
@@ -11,6 +11,8 @@ Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades
 - ✅ Dockerfile para empaquetar la app
 - ✅ `docker-compose` para levantar múltiples servicios
 - ✅ API REST con endpoints de prueba
+- ✅ GitHub Action que bloquea cambios no autorizados en archivos sensibles (`CODEOWNERS`, `.env`, workflows)
+- ✅ Protección de rama principal (`main`) con revisión obligatoria por parte de @Nerpi99
 - ✅ Ideal como base para futuros ejercicios con Kubernetes, CI/CD, Terraform, etc.
 
 ---
@@ -19,13 +21,17 @@ Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades
 
 ```
 mini-devops-lab/
-├── app/                  # Código fuente Node.js
+├── app/                        # Código fuente Node.js
 │   ├── index.js
 │   ├── Message.js
 │   ├── package.json
 │   └── Dockerfile
-├── docker-compose.yaml   # Orquestación de servicios
-└── README.md             # Este archivo
+├── docker-compose.yaml         # Orquestación de servicios
+├── .github/
+│   ├── CODEOWNERS              # Control de revisores
+│   └── workflows/
+│       └── protect-sensitive-files.yml  # GitHub Action de protección
+└── README.md
 ```
 
 ---
@@ -72,6 +78,15 @@ docker-compose up --build
 
 ---
 
+## 🔒 Seguridad y flujo de trabajo
+
+- Todos los cambios a `main` requieren Pull Request.
+- Solo @Nerpi99 puede aprobar merges a `main`.
+- Cualquier intento de modificar archivos protegidos será bloqueado por el GitHub Action.
+- Se recomienda abrir PRs desde ramas personales (`bruno-dev`, etc.).
+
+---
+
 ## ✍️ Autor
 
 **Bruno Nerpiti**  
@@ -82,6 +97,6 @@ docker-compose up --build
 
 ## 📌 Próximos pasos
 
-- CI/CD con GitHub Actions
-- Despliegue en Kubernetes con Minikube o Kind
+- CI/CD completo con test y despliegue automatizado
+- Despliegue en Kubernetes (Minikube o Kind)
 - Infraestructura como código con Terraform
