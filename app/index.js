@@ -4,7 +4,7 @@ const Message = require('./Message');
 const app = express();
 const port = process.env.PORT || 3000;
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/devops_lab';
-
+//testing git
 app.use(express.json());
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
