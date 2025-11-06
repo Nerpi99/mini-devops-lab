@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mini-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mini-api
+  template:
+    metadata:
+      labels:
+        app: mini-api
+    spec:
+      containers:
+        - name: mini-api
+          image: mini-api:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URL
+              value: mongodb://mongo:27017/messages

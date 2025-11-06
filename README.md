@@ -1,6 +1,6 @@
 # 🧪 Mini DevOps Lab
 
-Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker, Docker Compose y herramientas de CI/CD.
+Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades DevOps usando una aplicación real desplegada con Docker, Kubernetes y herramientas de CI/CD.
 
 ---
 
@@ -10,12 +10,13 @@ Este proyecto es un laboratorio práctico para ejercitar y demostrar habilidades
 - ✅ Conexión a MongoDB usando Mongoose
 - ✅ Dockerfile para empaquetar la app
 - ✅ `docker-compose` para levantar múltiples servicios
+- ✅ Archivos YAML para desplegar en Kubernetes (Minikube)
 - ✅ API REST con endpoints de prueba
 - ✅ Configuración ESLint para calidad de código
 - ✅ GitHub Action que bloquea cambios no autorizados en archivos sensibles (`CODEOWNERS`, `.env`, workflows)
 - ✅ GitHub Action de CI que corre ESLint automáticamente
 - ✅ Protección de la rama `main` con revisión obligatoria por @Nerpi99
-- ✅ Ideal como base para futuros ejercicios con Kubernetes, monitoreo y Terraform
+- ✅ Ideal como base para ejercicios con CI/CD, monitoreo, seguridad y Terraform
 
 ---
 
@@ -30,12 +31,17 @@ mini-devops-lab/
 │   ├── package-lock.json
 │   ├── Dockerfile
 │   └── eslint.config.mjs
+├── k8s/                        # Manifiestos de Kubernetes
+│   ├── mongo-deployment.yaml
+│   ├── mongo-service.yaml
+│   ├── api-deployment.yaml
+│   └── api-service.yaml
 ├── docker-compose.yaml         # Orquestación de servicios
 ├── .github/
 │   ├── CODEOWNERS              # Control de revisores
 │   └── workflows/
-│       ├── protect-sensitive-files.yml  # GitHub Action de protección
-│       └── ci-node.yml                   # GitHub Action para CI (ESLint)
+│       ├── protect-sensitive-files.yml
+│       └── ci-node.yml
 └── README.md
 ```
 
@@ -45,6 +51,8 @@ mini-devops-lab/
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
+- [Minikube](https://minikube.sigs.k8s.io/) o [Kind](https://kind.sigs.k8s.io/)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Node.js](https://nodejs.org/) (opcional para desarrollo local)
 - [GitHub CLI](https://cli.github.com/) (opcional para manejar PRs desde terminal)
 
@@ -52,25 +60,38 @@ mini-devops-lab/
 
 ## ⚙️ Cómo levantar el proyecto
 
-1. Cloná el repositorio:
-
-```bash
-git clone https://github.com/Nerpi99/mini-devops-lab.git
-cd mini-devops-lab
-```
-
-2. Levantá los servicios:
+### 🐳 Con Docker Compose
 
 ```bash
 docker-compose up --build
 ```
 
-3. Verificá que esté funcionando:
+### ☸️ Con Kubernetes + Minikube
 
-- `http://localhost:3000/hello` → "Hello from DevOps Lab with Mongo!"
-- `http://localhost:3000/health` → `{ "status": "ok" }`
-- `http://localhost:3000/messages` → lista los mensajes
-- `POST http://localhost:3000/messages` → crea nuevos mensajes
+1. Iniciá Minikube:
+```bash
+minikube start
+```
+
+2. Configurá tu terminal para usar Docker dentro de Minikube:
+```powershell
+& minikube -p minikube docker-env | Invoke-Expression
+```
+
+3. Construí la imagen local:
+```bash
+docker build -t mini-api:v1 .
+```
+
+4. Aplicá los manifiestos:
+```bash
+kubectl apply -f k8s/
+```
+
+5. Accedé a la API desde tu navegador:
+```bash
+minikube service mini-api
+```
 
 ---
 
@@ -94,17 +115,19 @@ docker-compose up --build
 
 ---
 
+## 📌 Próximos pasos
+
+- 🔧 Variables de entorno con ConfigMaps y Secrets en Kubernetes
+- 📈 Monitoreo con Prometheus y Grafana
+- 🚀 Pipeline CI/CD completo con test y deploy a K8s
+- ☁️ Despliegue en un clúster remoto (GKE, AKS, EKS)
+- 🧱 Infraestructura como código con Terraform
+- 🔐 Integración de escaneo de seguridad en CI (Trivy, Snyk)
+
+---
+
 ## ✍️ Autor
 
 **Bruno Nerpiti**  
 💼 DevOps Engineer  
 🔗 [linkedin.com/in/bruno-nerpiti](https://www.linkedin.com/in/bruno-nerpiti/)
-
----
-
-## 📌 Próximos pasos
-
-- Despliegue en Kubernetes con Minikube o Kind
-- Monitoreo con Prometheus + Grafana
-- Pipeline CI/CD completo con test y deploy automático
-- Infraestructura como código con Terraform
